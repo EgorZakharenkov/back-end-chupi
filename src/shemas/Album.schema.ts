@@ -1,6 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 import { Music } from './music.schema.';
+import { Artist } from './artist.schema';
+
+export type AlbumDocument = HydratedDocument<Album>;
 
 @Schema()
 export class Album {

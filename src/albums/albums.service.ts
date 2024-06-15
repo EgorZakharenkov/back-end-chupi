@@ -3,11 +3,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { HydratedDocument, Model, ModifyResult } from 'mongoose';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
-import { Album } from '../shemas/Album.schema';
+import { Album, AlbumDocument } from '../shemas/Album.schema';
 
 @Injectable()
 export class AlbumsService {
-  constructor(@InjectModel(Album.name) private albumModel: Model<Album>) {}
+  constructor(
+    @InjectModel(Album.name) private albumModel: Model<AlbumDocument>,
+  ) {}
 
   async create(createArtistDto: CreateAlbumDto): Promise<Album> {
     return await this.albumModel.create(createArtistDto);
