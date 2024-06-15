@@ -20,11 +20,7 @@ export class AlbumsService {
   }
 
   async findOne(id: string): Promise<Album> {
-    const album = await this.albumModel.findById(id).populate('songs').exec();
-    if (!album) {
-      throw new NotFoundException(`Artist with ID ${id} not found`);
-    }
-    return album;
+    return await this.albumModel.findById(id).populate('songs').exec();
   }
 
   async update(id: string, updateArtistDto: UpdateAlbumDto): Promise<Album> {
