@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { PlaylistModule } from './playlist/playlist.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { ArtistsModule } from './artists/artists.module';
+import { AlbumsModule } from './albums/albums.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ArtistsModule } from './artists/artists.module';
     PlaylistModule,
     ArtistsModule,
     ArtistsModule,
+    AlbumsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
