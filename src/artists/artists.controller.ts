@@ -121,6 +121,15 @@ export class ArtistController {
     }
   }
 
+  @Delete('/:id')
+  async remove(@Param('id') id: string) {
+    try {
+      await this.artistService.remove(id);
+    } catch (error) {
+      console.log('Не удалось удалить');
+    }
+  }
+
   @Delete('/:id/remove-music')
   async removeMusic(
     @Res() response: Response,
