@@ -18,50 +18,50 @@ export class AlbumsService {
   }
 
   async findOne(id: string): Promise<Album> {
-    const artist = await this.albumModel.findById(id).populate('songs').exec();
-    if (!artist) {
+    const album = await this.albumModel.findById(id).populate('songs').exec();
+    if (!album) {
       throw new NotFoundException(`Artist with ID ${id} not found`);
     }
-    return artist;
+    return album;
   }
 
   async update(id: string, updateArtistDto: UpdateAlbumDto): Promise<Album> {
-    const updatedArtist = await this.albumModel
+    const updatedAlbum = await this.albumModel
       .findByIdAndUpdate(id, updateArtistDto, { new: true })
       .exec();
-    if (!updatedArtist) {
+    if (!updatedAlbum) {
       throw new NotFoundException(`Artist with ID ${id} not found`);
     }
-    return updatedArtist;
+    return updatedAlbum;
   }
 
   async remove(
     id: string,
   ): Promise<ModifyResult<HydratedDocument<Album, {}, {}>>> {
-    const deletedArtist = await this.albumModel.findByIdAndDelete(id).exec();
-    if (!deletedArtist) {
+    const deletedAlbum = await this.albumModel.findByIdAndDelete(id).exec();
+    if (!deletedAlbum) {
       throw new NotFoundException(`Artist with ID ${id} not found`);
     }
-    return deletedArtist;
+    return deletedAlbum;
   }
 
   async addMusic(id: string, musicId: string): Promise<Album> {
-    const updatedArtist = await this.albumModel
+    const updatedAlbum = await this.albumModel
       .findByIdAndUpdate(id, { $push: { songs: musicId } }, { new: true })
       .exec();
-    if (!updatedArtist) {
+    if (!updatedAlbum) {
       throw new NotFoundException(`Artist with ID ${id} not found`);
     }
-    return updatedArtist;
+    return updatedAlbum;
   }
 
   async removeMusic(id: string, musicId: string): Promise<Album> {
-    const updatedArtist = await this.albumModel
+    const updatedAlbum = await this.albumModel
       .findByIdAndUpdate(id, { $pull: { songs: musicId } }, { new: true })
       .exec();
-    if (!updatedArtist) {
+    if (!updatedAlbum) {
       throw new NotFoundException(`Artist with ID ${id} not found`);
     }
-    return updatedArtist;
+    return updatedAlbum;
   }
 }

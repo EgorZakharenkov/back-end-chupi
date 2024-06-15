@@ -8,13 +8,14 @@ import {
   Put,
   Res,
   UploadedFile,
+  UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
 import { MusicService } from './music.service';
 import { CreateMusicDto } from './dto/create-music.dto';
 import { UpdateMusicDto } from './dto/update-music.dto';
 import { Express } from 'express';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 
 @Controller('music')
@@ -47,11 +48,11 @@ export class MusicController {
 
   @Post()
   @UseInterceptors(
-    FileInterceptor('file', {
+    FilesInterceptor('files', 2, {
       storage: diskStorage({
         destination: './files',
         filename: (req, file, callback) => {
-          const filename = `${file.originalname}`;
+          const filename = `${Date.now()}-${file.originalname}`;
           callback(null, filename);
         },
       }),
@@ -59,13 +60,19 @@ export class MusicController {
   )
   async create(
     @Body() createMusicDto: CreateMusicDto,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFiles() files: Express.Multer.File[],
   ) {
     const musicData = { ...createMusicDto };
-    console.log(file);
-    if (file) {
-      musicData.imgSong = file.path;
-    }
+    console.log(files);
+
+    files.forEach((file) => {
+      if (file.mimetype.startsWith('image')) {
+        musicData.imgSong = file.path;
+      } else if (file.mimetype.startsWith('audio')) {
+        musicData.song = file.path;
+      }
+    });
+
     console.log(musicData);
     return this.musicService.create(musicData);
   }

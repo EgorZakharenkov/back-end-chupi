@@ -24,8 +24,8 @@ export class AlbumsController {
   @Get()
   async getAll(@Res() response: Response) {
     try {
-      const artists = await this.albumsService.findAll();
-      return response.status(200).json({ artists });
+      const albums = await this.albumsService.findAll();
+      return response.status(200).json({ albums });
     } catch (err) {
       return response
         .status(err.status || 500)
@@ -36,8 +36,8 @@ export class AlbumsController {
   @Get('/:id')
   async getOne(@Res() response: Response, @Param('id') id: string) {
     try {
-      const artist = await this.albumsService.findOne(id);
-      return response.status(200).json({ artist });
+      const album = await this.albumsService.findOne(id);
+      return response.status(200).json({ album });
     } catch (err) {
       return response
         .status(err.status || 500)
