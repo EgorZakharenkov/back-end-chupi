@@ -65,13 +65,20 @@ export class MusicController {
     const musicData = { ...createMusicDto };
     console.log(files);
 
-    files.forEach((file) => {
-      if (file.mimetype.startsWith('image')) {
-        musicData.imgSong = file.path;
-      } else if (file.mimetype.startsWith('audio')) {
-        musicData.song = file.path;
+    if (files && files.length > 0) {
+      const imageFile = files.find((file) =>
+        file.mimetype.startsWith('image/'),
+      );
+      const songFile = files.find((file) => file.mimetype.startsWith('audio/'));
+
+      if (imageFile) {
+        musicData.imgSong = imageFile.path;
       }
-    });
+
+      if (songFile) {
+        musicData.song = songFile.path;
+      }
+    }
 
     console.log(musicData);
     return this.musicService.create(musicData);
