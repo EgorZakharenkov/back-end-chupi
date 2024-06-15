@@ -1,7 +1,8 @@
-import { Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { Music } from './music.schema.';
 
+@Schema()
 export class Album {
   @Prop({ required: true })
   name: string;
